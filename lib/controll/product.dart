@@ -6,7 +6,12 @@ class ProductProvider with ChangeNotifier, DiagnosticableTreeMixin {
   final _repository = ProductRepository();
   List<ProductModel> _productList = [];
   List<ProductModel> get productList => _productList;
-
+  List catagoryType = [
+    ["electronics", true],
+    ["jewelery", false],
+    ["men's clothing", false],
+    ["women's clothing", false]
+  ];
   ProductProvider() {
     init();
   }
@@ -23,6 +28,15 @@ class ProductProvider with ChangeNotifier, DiagnosticableTreeMixin {
 
   Future addCatalog() async {
     await _repository.addProducts();
+    notifyListeners();
+  }
+
+  selectedCatagory(int index) {
+    print("select");
+    for (int i = 0; i < catagoryType.length; i++) {
+      catagoryType[i][1] = false;
+    }
+    catagoryType[index][1] = true;
     notifyListeners();
   }
 }

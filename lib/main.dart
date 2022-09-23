@@ -27,17 +27,17 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        splashColor: Colors.transparent,
-        // primarySwatch: Colors.blue,
+        textTheme: TextTheme(),
+        // splashColor: Colors.transparent,
+        scaffoldBackgroundColor: Colors.black, // scaffold
         appBarTheme: const AppBarTheme(
           elevation: 0.0,
-          // backgroundColor: Color.fromARGB(0, 255, 255, 255),
           titleTextStyle: TextStyle(),
           actionsIconTheme: IconThemeData(
-            color: appBarIconsBlack,
+            color: appBarIconsWhite,
           ),
           iconTheme: IconThemeData(
-            color: appBarIconsBlack,
+            color: appBarIconsWhite,
           ),
         ),
       ),
@@ -77,7 +77,9 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: children[routeIndex],
+      body: IndexedStack(
+        children: children,
+      ),
       bottomNavigationBar: BottomNavigationBar(
         elevation: 0.0,
         backgroundColor: bottomBarColor,
