@@ -27,11 +27,11 @@ class ProductCard extends StatelessWidget {
           );
         }),
         child: Container(
-          padding: EdgeInsets.all(10.0),
+          padding: const EdgeInsets.all(10.0),
           width: 280,
           // height: 400,
           decoration: BoxDecoration(
-            color: Color.fromARGB(58, 82, 82, 82),
+            color: const Color.fromARGB(58, 82, 82, 82),
             borderRadius: BorderRadius.circular(12.0),
           ),
           child: Column(
@@ -44,7 +44,7 @@ class ProductCard extends StatelessWidget {
                 fit: BoxFit.contain,
                 scale: 1.0,
               ),
-              SizedBox(
+              const SizedBox(
                 height: 5.0,
               ),
               ListTile(
@@ -78,7 +78,7 @@ class ProductCard extends StatelessWidget {
                       children: [
                         IconButton(
                           onPressed: (() {}),
-                          icon: Icon(
+                          icon: const Icon(
                             Icons.add_shopping_cart,
                             color: Colors.white,
                           ),
