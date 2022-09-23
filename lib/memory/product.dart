@@ -1,7 +1,10 @@
-import 'package:storeappver3/controll/product.dart';
+import 'dart:io';
+
+import 'package:image/image.dart';
 import 'package:storeappver3/models/product.dart';
 import 'dart:convert';
 import 'package:dio/dio.dart';
+import 'package:storeappver3/theme.dart';
 
 Dio dio = Dio();
 
@@ -106,4 +109,40 @@ class ProductMemo {
       "https://fakestoreapi.com/products/${id}",
     );
   }
+
+  final APIkey = "Uv5NW5gkygwBrQ9eNihR67md";
+  removeBackground() async {
+    FormData formData = FormData.fromMap({
+      "size": "auto",
+      "image_url": "https://www.remove.bg/example.jpg",
+    });
+    formData.files.addAll({});
+    final response = await dio.post(
+      "https://api.remove.bg/v1.0/removebg",
+      data: formData,
+      options: Options(
+        headers: {
+          'X-Api-Key': '${APIkey}',
+        },
+      ),
+    );
+    print(response.statusMessage);
+    // var raf = await file.openSync(mode: FileMode.write);
+    // raf.writeFromSync(response.data);
+    // await raf.close();
+    // print("down");
+    // File file = File("/Users/yuhsienchang/Documents/flutter_project202209/");
+    // final img = file.openSync(mode: FileMode.write);
+    // img.writeFromSync(response.data);
+    // await img.close();
+  }
 }
+
+
+/*
+curl -H 'X-API-Key: Uv5NW5gkygwBrQ9eNihR67md'           \
+       -F 'image_url=https://www.remove.bg/example.jpg'   \
+       -F 'size=auto'                                     \
+       -f https://api.remove.bg/v1.0/removebg -o no-bg.png
+
+*/

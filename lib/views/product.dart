@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:storeappver3/controll/product.dart';
+import 'package:storeappver3/models/product.dart';
 import 'package:storeappver3/theme.dart';
+import 'package:storeappver3/views/components/searchBody.dart';
 import 'package:storeappver3/views/productCard.dart';
 
 class ProductPage extends StatelessWidget {
@@ -25,7 +27,7 @@ class ProductPage extends StatelessWidget {
         actions: <Widget>[
           IconButton(
             onPressed: () {},
-            icon: Icon(Icons.shop),
+            icon: Icon(Icons.shopping_basket),
           ),
           IconButton(
             onPressed: () {},
@@ -126,7 +128,11 @@ class _ScrollViewBodyState extends State<ScrollViewBody> {
               borderRadius: BorderRadius.circular(10.0),
             ),
             child: TextField(
+              onTap: (() {
+                showSearch(context: context, delegate: ProductSearchDelegate());
+              }),
               controller: _textEditController,
+              readOnly: true,
               style: const TextStyle(color: Colors.white), // font color
               cursorColor: Colors.white,
               decoration: InputDecoration(
@@ -180,22 +186,26 @@ class _ScrollViewBodyState extends State<ScrollViewBody> {
         SliverToBoxAdapter(
           child: Container(
               padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-              height: size.height * 0.5,
+              height: size.height * 0.55,
               child: Consumer<ProductProvider>(
                 builder: (context, data, child) {
-                  return ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: 3,
-                      itemBuilder: ((context, index) {
-                        return ProductCard(
-                          title: data.productList[index].title,
-                          price: data.productList[index].price.toInt(),
-                          description: data.productList[index].description,
-                          category: data.productList[index].category,
-                          images: data.productList[index].image,
-                          rating: data.productList[index].rating.toString(),
+                  return data.productList.isNotEmpty == true
+                      ? ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: 3,
+                          itemBuilder: (context, index) {
+                            return ProductCard(
+                              product: ProductModel.fromJson(
+                                  data.productList[index].toJson()),
+                            );
+                          },
+                        )
+                      : Center(
+                          child: Text(
+                            "Loading...",
+                            style: TextStyle(color: textWhite),
+                          ),
                         );
-                      }));
                 },
               )),
         ),
