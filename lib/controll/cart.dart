@@ -51,6 +51,7 @@ class CartProvider with ChangeNotifier {
   void decrease() {
     if (numberSingle > 0) {
       numberSingle -= 1;
+      print("decrease");
     }
 
     notifyListeners();
@@ -59,6 +60,7 @@ class CartProvider with ChangeNotifier {
   void increase() {
     if (numberSingle >= 0) {
       numberSingle += 1;
+      print("increase");
     }
 
     notifyListeners();
@@ -89,6 +91,4 @@ class CartProvider with ChangeNotifier {
 
     notifyListeners();
   }
-
-  getTotalPrice() {}
 }

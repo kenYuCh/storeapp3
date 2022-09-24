@@ -13,6 +13,7 @@ class CartList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    final cartProvider = Provider.of<CartProvider>(context, listen: false);
     final cartItems =
         Provider.of<CartProvider>(context, listen: true).cartItems;
     final totalPrice =
@@ -49,12 +50,16 @@ class CartList extends StatelessWidget {
                           Row(
                             children: [
                               IconButton(
-                                onPressed: (() {}),
+                                onPressed: (() {
+                                  cartProvider.decrease();
+                                }),
                                 icon: Icon(Icons.remove),
                               ),
                               Text("${cartItems[index]['number']}"),
                               IconButton(
-                                onPressed: (() {}),
+                                onPressed: (() {
+                                  cartProvider.increase();
+                                }),
                                 icon: Icon(Icons.add),
                               ),
                             ],
@@ -64,12 +69,10 @@ class CartList extends StatelessWidget {
                     ]),
                     trailing: IconButton(
                         onPressed: (() {
-                          final cart =
-                              Provider.of<CartProvider>(context, listen: false)
-                                  .removeProduct(
-                                      cartItems[index]['cartID'],
-                                      cartItems[index]['product']['id'],
-                                      cartItems[index]['itemTotalPrice']);
+                          cartProvider.removeProduct(
+                              cartItems[index]['cartID'],
+                              cartItems[index]['product']['id'],
+                              cartItems[index]['itemTotalPrice']);
                         }),
                         icon: Icon(Icons.delete)),
                   ),

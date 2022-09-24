@@ -7,18 +7,9 @@ import 'package:storeappver3/repository/product.dart';
 class ProductProvider with ChangeNotifier, DiagnosticableTreeMixin {
   final _repository = ProductRepository();
   List<ProductModel> _productList = [];
-  List<ProductModel> get productList => _productList;
-  List<ProductModel> _cart = [];
-  List<ProductModel> get cart => _cart;
   int numberSingle = 0;
   List<Map<String, dynamic>> cartProductID = [];
 
-  List catagoryType = [
-    ["electronics", true],
-    ["jewelery", false],
-    ["men's clothing", false],
-    ["women's clothing", false]
-  ];
   ProductProvider() {
     init();
   }
@@ -28,29 +19,30 @@ class ProductProvider with ChangeNotifier, DiagnosticableTreeMixin {
     notifyListeners();
   }
 
-  Future getProduct() async {
-    _productList = await _repository.getProducts();
-    notifyListeners();
+  List<ProductModel> get productItems {
+    return _productList;
   }
 
-  Future addCatalog() async {
-    await _repository.addProducts();
-    notifyListeners();
+  // isFavourite
+  var isFavoriteTapped = false;
+  List<ProductModel> get itemsTest {
+    if (isFavoriteTapped)
+      return _productList.where((product) => product.isFavourite).toList();
+    return [..._productList];
   }
 
-  selectedCatagory(int index) {
-    print("select");
-    for (int i = 0; i < catagoryType.length; i++) {
-      catagoryType[i][1] = false;
-    }
+  // category select
+  List catagoryType = [
+    ["electronics", true],
+    ["jewelery", false],
+    ["men's clothing", false],
+    ["women's clothing", false]
+  ];
+  void selectedCatagory(int index) {
+    catagoryType.map((category) {
+      return category[1] = false;
+    }).toList();
     catagoryType[index][1] = true;
     notifyListeners();
-  }
-
-  void compare(product) {
-    final result = _cart.where(
-        (e) => e.title.toLowerCase().contains(product.title.toLowerCase())); //3
-    print(_cart.length);
-    print("result${result.length}");
   }
 }

@@ -27,6 +27,7 @@ class ProductModel {
     required this.category,
     required this.image,
     required this.rating,
+    @required this.isFavourite = false,
   });
 
   final int? id; //
@@ -36,6 +37,7 @@ class ProductModel {
   final String category;
   final String image;
   final Rating? rating;
+  bool isFavourite;
   // 若有數值轉換可直接在model導入時轉換
   factory ProductModel.fromJson(Map<String, dynamic> json) => ProductModel(
         id: json["id"] == null ? null : json["id"],
