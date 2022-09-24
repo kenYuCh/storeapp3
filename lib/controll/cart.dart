@@ -1,6 +1,3 @@
-import 'dart:convert';
-import 'dart:ffi';
-
 import 'package:flutter/foundation.dart';
 
 import 'package:storeappver3/models/product.dart';
@@ -64,7 +61,6 @@ class CartProvider with ChangeNotifier {
               price: price.toInt(),
               image: image);
         });
-        print("$title is added to cart multiple");
       } else {
         // 查找 [key] 的值，如果不存在，則添加新條目。如果有一個，則返回與 [key] 關聯的值。
         _itemsA.putIfAbsent(
@@ -77,15 +73,13 @@ class CartProvider with ChangeNotifier {
             image: image,
           ),
         );
-        print("$title is added to cart");
       }
     }
-    print(_itemsA['1']!.price); // 109
 
     notifyListeners();
   }
 
-  // productDetial
+  // for productDetial
   void switchAddRemove(String name) {
     switch (name) {
       case "decrease":
@@ -118,26 +112,29 @@ class CartProvider with ChangeNotifier {
             price: cartItem.price,
             image: cartItem.image);
       });
-      quantity -= 1;
+      // quantity += 1;
       // print("$title is added to cart multiple");
     }
     notifyListeners();
   }
 
   void cartRemoveamount(CartItem cartItem) {
-    if (_itemsA.containsKey(cartItem.id)) {
-      _itemsA.update(cartItem.id, (existing) {
-        return CartItem(
-            id: cartItem.id,
-            title: cartItem.title,
-            quantity: cartItem.quantity - 1,
-            price: cartItem.price,
-            image: cartItem.image);
-      });
-      // 如果數量為0就刪除
-      quantity == 0 ? removeItem(cartItem.id) : quantity += 1;
-      // print("$title is added to cart multiple");
+    if (cartItem.quantity > 1) {
+      if (_itemsA.containsKey(cartItem.id)) {
+        _itemsA.update(cartItem.id, (existing) {
+          return CartItem(
+              id: cartItem.id,
+              title: cartItem.title,
+              quantity: cartItem.quantity - 1,
+              price: cartItem.price,
+              image: cartItem.image);
+        });
+        // 如果數量為0就刪除
+        // quantity == 0 ? removeItem(cartItem.id) : null;
+        // print("$title is added to cart multiple");
+      }
     }
+
     notifyListeners();
   }
 
@@ -146,11 +143,6 @@ class CartProvider with ChangeNotifier {
     _itemsA.remove(id);
     notifyListeners();
   }
-
-  // void remove(ProductModel catalog) {
-  //   _itemIds.removeWhere((item) => item.id == catalog.id);
-  //   notifyListeners();
-  // }
 }
 
 

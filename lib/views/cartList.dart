@@ -1,11 +1,6 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:provider/provider.dart';
 import 'package:storeappver3/controll/cart.dart';
-import 'package:storeappver3/controll/product.dart';
 
 class CartList extends StatelessWidget {
   const CartList({super.key});
@@ -13,16 +8,13 @@ class CartList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-
     final itemsA = Provider.of<CartProvider>(context, listen: true).itemsA;
     final cart = Provider.of<CartProvider>(context, listen: false);
-
-    // print(cartItems[0]['product']['id']);
     return Container(
       child: Stack(
         children: [
           Container(
-            padding: EdgeInsets.all(15.0),
+            padding: const EdgeInsets.all(15.0),
             decoration: const BoxDecoration(
                 // color: Colors.amber,
                 // borderRadius: BorderRadius.circular(25),
@@ -54,7 +46,7 @@ class CartList extends StatelessWidget {
                                   cart.cartRemoveamount(
                                       itemsA.values.toList()[index]);
                                 }),
-                                icon: Icon(Icons.remove),
+                                icon: const Icon(Icons.remove),
                               ),
                               Text("${itemsA.values.toList()[index].quantity}"),
                               IconButton(
@@ -62,7 +54,7 @@ class CartList extends StatelessWidget {
                                   cart.cartAddamount(
                                       itemsA.values.toList()[index]);
                                 }),
-                                icon: Icon(Icons.add),
+                                icon: const Icon(Icons.add),
                               ),
                             ],
                           )
@@ -73,7 +65,7 @@ class CartList extends StatelessWidget {
                         onPressed: (() {
                           cart.removeItem(itemsA.values.toList()[index].id);
                         }),
-                        icon: Icon(Icons.delete)),
+                        icon: const Icon(Icons.delete)),
                   ),
                 );
               }),
@@ -84,7 +76,7 @@ class CartList extends StatelessWidget {
               child: Container(
                 height: 60.0,
                 width: size.width,
-                decoration: BoxDecoration(color: Colors.grey),
+                decoration: const BoxDecoration(color: Colors.grey),
                 child: Center(
                   child: Text("Total Price: ${cart.totalAmount}"),
                 ),
