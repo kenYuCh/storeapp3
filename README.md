@@ -15,6 +15,6 @@
 </p>
 
 
-## working...productDetail, 
+
 
 
