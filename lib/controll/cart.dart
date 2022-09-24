@@ -85,36 +85,72 @@ class CartProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  // productDetial
+  void switchAddRemove(String name) {
+    switch (name) {
+      case "decrease":
+        if (quantity > 0) {
+          quantity -= 1;
+          print("decrease");
+        }
+        break;
+      case "increase":
+        if (quantity >= 0) {
+          quantity += 1;
+          print("increase");
+        }
+        break;
+      default:
+        break;
+    }
+    notifyListeners();
+  }
+
+  int index = 0;
+
+  void cartAddamount(CartItem cartItem) {
+    if (_itemsA.containsKey(cartItem.id)) {
+      _itemsA.update(cartItem.id, (existing) {
+        return CartItem(
+            id: cartItem.id,
+            title: cartItem.title,
+            quantity: cartItem.quantity + 1,
+            price: cartItem.price,
+            image: cartItem.image);
+      });
+      quantity -= 1;
+      // print("$title is added to cart multiple");
+    }
+    notifyListeners();
+  }
+
+  void cartRemoveamount(CartItem cartItem) {
+    if (_itemsA.containsKey(cartItem.id)) {
+      _itemsA.update(cartItem.id, (existing) {
+        return CartItem(
+            id: cartItem.id,
+            title: cartItem.title,
+            quantity: cartItem.quantity - 1,
+            price: cartItem.price,
+            image: cartItem.image);
+      });
+      // 如果數量為0就刪除
+      quantity == 0 ? removeItem(cartItem.id) : quantity += 1;
+      // print("$title is added to cart multiple");
+    }
+    notifyListeners();
+  }
+
   void removeItem(String id) {
     print(id);
     _itemsA.remove(id);
     notifyListeners();
   }
 
-  void remove(ProductModel catalog) {
-    _itemIds.removeWhere((item) => item.id == catalog.id);
-    notifyListeners();
-  }
-
-  void decrease() {
-    if (quantity > 0) {
-      quantity -= 1;
-      print("decrease");
-    }
-
-    notifyListeners();
-  }
-
-  void increase() {
-    if (quantity >= 0) {
-      quantity += 1;
-      print("increase");
-    }
-
-    notifyListeners();
-  }
-
-  int index = 0;
+  // void remove(ProductModel catalog) {
+  //   _itemIds.removeWhere((item) => item.id == catalog.id);
+  //   notifyListeners();
+  // }
 }
 
 

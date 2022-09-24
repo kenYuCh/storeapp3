@@ -130,14 +130,14 @@ class ProductDetail extends StatelessWidget {
                     children: [
                       IconButton(
                         onPressed: (() {
-                          provider.decrease();
+                          provider.switchAddRemove("decrease");
                         }),
                         icon: const Icon(Icons.remove),
                       ),
                       Text("${provider.quantity}"),
                       IconButton(
                         onPressed: (() {
-                          provider.increase();
+                          provider.switchAddRemove("increase");
                         }),
                         icon: const Icon(Icons.add),
                       )

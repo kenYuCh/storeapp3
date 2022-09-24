@@ -51,14 +51,16 @@ class CartList extends StatelessWidget {
                               IconButton(
                                 onPressed: (() {
                                   // cartProvider.decreaseA();
-                                  cart.decrease();
+                                  cart.cartRemoveamount(
+                                      itemsA.values.toList()[index]);
                                 }),
                                 icon: Icon(Icons.remove),
                               ),
                               Text("${itemsA.values.toList()[index].quantity}"),
                               IconButton(
                                 onPressed: (() {
-                                  cart.increase();
+                                  cart.cartAddamount(
+                                      itemsA.values.toList()[index]);
                                 }),
                                 icon: Icon(Icons.add),
                               ),
