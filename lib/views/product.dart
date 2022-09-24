@@ -12,9 +12,6 @@ class ProductPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final productProvider =
-        Provider.of<ProductProvider>(context, listen: false);
-
     return Scaffold(
       // extendBodyBehindAppBar: true,
       appBar: AppBar(
@@ -42,19 +39,25 @@ class ProductPage extends StatelessWidget {
     );
   }
 
-  void showBottomSheet(context) => showModalBottomSheet(
-        isScrollControlled: true,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(20),
-            topRight: Radius.circular(20),
-          ),
+  // Cart List
+  void showBottomSheet(context) {
+    showModalBottomSheet(
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(20),
+          topRight: Radius.circular(20),
         ),
-        context: context,
-        builder: ((context) {
-          return FractionallySizedBox(heightFactor: 0.9, child: CartList());
-        }),
-      );
+      ),
+      context: context,
+      builder: ((context) {
+        return const FractionallySizedBox(
+          heightFactor: 0.9,
+          child: CartList(),
+        );
+      }),
+    );
+  }
 }
 
 class ScrollViewBody extends StatefulWidget {
@@ -70,7 +73,6 @@ class _ScrollViewBodyState extends State<ScrollViewBody> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
   }
 
@@ -94,13 +96,11 @@ class _ScrollViewBodyState extends State<ScrollViewBody> {
         SliverToBoxAdapter(
           child: Stack(
             children: [
-              Container(
-                child: Image.asset(
-                  "assets/images/titleBg.png",
-                  height: 200.0,
-                  width: size.width,
-                  fit: BoxFit.cover,
-                ),
+              Image.asset(
+                "assets/images/titleBg.png",
+                height: 200.0,
+                width: size.width,
+                fit: BoxFit.cover,
               ),
               Positioned(
                 right: 0,
@@ -111,7 +111,7 @@ class _ScrollViewBodyState extends State<ScrollViewBody> {
                   height: 100.0,
                 ),
               ),
-              Padding(
+              const Padding(
                 padding: EdgeInsets.only(left: 20.0, bottom: 10.0, top: 45.0),
                 child: ListTile(
                   // contentPadding: EdgeInsets.all(20.0),
@@ -146,7 +146,7 @@ class _ScrollViewBodyState extends State<ScrollViewBody> {
             ),
             child: TextField(
               onTap: (() {
-                showSearch(context: context, delegate: ProductSearchDelegate());
+                showSearchFc(context);
               }),
               controller: _textEditController,
               readOnly: true,
@@ -200,9 +200,11 @@ class _ScrollViewBodyState extends State<ScrollViewBody> {
             ),
           ),
         ),
+        // product Card
         SliverToBoxAdapter(
           child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
               height: size.height * 0.55,
               child: Consumer<ProductProvider>(
                 builder: (context, data, child) {
@@ -217,7 +219,7 @@ class _ScrollViewBodyState extends State<ScrollViewBody> {
                             );
                           },
                         )
-                      : Center(
+                      : const Center(
                           child: Text(
                             "Loading...",
                             style: TextStyle(color: textWhite),
@@ -231,6 +233,11 @@ class _ScrollViewBodyState extends State<ScrollViewBody> {
   }
 }
 
+void showSearchFc(context) {
+  showSearch(context: context, delegate: ProductSearchDelegate());
+}
+
+// category select
 class CatagoryType extends StatelessWidget {
   const CatagoryType({
     super.key,

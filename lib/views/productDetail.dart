@@ -19,7 +19,7 @@ class ProductDetail extends StatelessWidget {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () {
-            Provider.of<CartProvider>(context, listen: false).numberSingle = 0;
+            Provider.of<CartProvider>(context, listen: false).quantity = 0;
             Navigator.of(context).pop();
           },
         ),
@@ -32,7 +32,7 @@ class ProductDetail extends StatelessWidget {
     final size = MediaQuery.of(context).size;
     // final removeImage = ProductMemo().removeBackground();
     Rating? rating = product.rating;
-    print(rating!.count.toInt());
+
     return Container(
       child: Stack(
         children: [
@@ -129,12 +129,16 @@ class ProductDetail extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       IconButton(
-                        onPressed: (() => provider.decrease()),
+                        onPressed: (() {
+                          provider.decrease();
+                        }),
                         icon: const Icon(Icons.remove),
                       ),
-                      Text("${provider.numberSingle}"),
+                      Text("${provider.quantity}"),
                       IconButton(
-                        onPressed: (() => provider.increase()),
+                        onPressed: (() {
+                          provider.increase();
+                        }),
                         icon: const Icon(Icons.add),
                       )
                     ],
@@ -152,7 +156,10 @@ class ProductDetail extends StatelessWidget {
   Widget buildBuy(size) {
     return Consumer<CartProvider>(builder: ((context, provider, child) {
       return GestureDetector(
-        onTap: () => provider.buy(product),
+        onTap: () {
+          provider.addItem(product.id.toString(), product.price, product.title,
+              product.image);
+        },
         child: Container(
             width: size.width / 4,
             height: 40.0,

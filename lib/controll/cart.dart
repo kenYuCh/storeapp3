@@ -5,52 +5,100 @@ import 'package:flutter/foundation.dart';
 
 import 'package:storeappver3/models/product.dart';
 
+class CartItem {
+  final String id;
+  final String title;
+  final int quantity;
+  final int price;
+  final String image;
+
+  CartItem({
+    required this.id,
+    required this.title,
+    required this.quantity,
+    required this.price,
+    required this.image,
+  });
+}
+
 class CartProvider with ChangeNotifier {
   List<ProductModel> _itemIds = [];
   List<Map<String, dynamic>> cartItems = [];
-  int numberSingle = 0;
+  Map<String, CartItem> _itemsA = {};
+  Map<String, CartItem> get itemsA => _itemsA;
+  int quantity = 0;
   int totalPrice = 0;
   CartProvider() {
     init();
   }
-
-  List<ProductModel> get items => _itemIds;
-
-  // int get totalPrice =>
-  //     items.fold(0, (total, current) => (total + current.price).toInt());
-
   void init() {
     _itemIds = [];
   }
 
-  add(ProductModel catalog) {
-    _itemIds.add(catalog);
+  // Map<String, CartItem> get itemsA {
+  //   return {..._itemsA};
+  // }
+
+  int get itemCount {
+    return _itemsA.length;
+  }
+
+  List<ProductModel> get items => _itemIds;
+
+  int get totalAmount {
+    var total = 0;
+    _itemsA.forEach((key, cartItem) {
+      total = total + cartItem.price * cartItem.quantity.toInt();
+    });
+    return total;
+  }
+
+  void addItem(String id, double price, String title, String image) {
+    if (quantity > 0) {
+      if (_itemsA.containsKey(id)) {
+        _itemsA.update(id, (existing) {
+          return CartItem(
+              id: id,
+              title: title,
+              quantity: existing.quantity + quantity,
+              price: price.toInt(),
+              image: image);
+        });
+        print("$title is added to cart multiple");
+      } else {
+        // 查找 [key] 的值，如果不存在，則添加新條目。如果有一個，則返回與 [key] 關聯的值。
+        _itemsA.putIfAbsent(
+          id,
+          () => CartItem(
+            id: id,
+            title: title,
+            quantity: quantity,
+            price: price.toInt(),
+            image: image,
+          ),
+        );
+        print("$title is added to cart");
+      }
+    }
+    print(_itemsA['1']!.price); // 109
+
     notifyListeners();
   }
 
-  remove(ProductModel catalog) {
+  void removeItem(String id) {
+    print(id);
+    _itemsA.remove(id);
+    notifyListeners();
+  }
+
+  void remove(ProductModel catalog) {
     _itemIds.removeWhere((item) => item.id == catalog.id);
     notifyListeners();
   }
 
-  clear() {
-    _itemIds.clear();
-    notifyListeners();
-  }
-
-  contains(id) {
-    return _itemIds
-        .map((item) {
-          return item.id;
-        })
-        .toList()
-        .contains(id);
-  }
-
-  //////////////////////////////
   void decrease() {
-    if (numberSingle > 0) {
-      numberSingle -= 1;
+    if (quantity > 0) {
+      quantity -= 1;
       print("decrease");
     }
 
@@ -58,8 +106,8 @@ class CartProvider with ChangeNotifier {
   }
 
   void increase() {
-    if (numberSingle >= 0) {
-      numberSingle += 1;
+    if (quantity >= 0) {
+      quantity += 1;
       print("increase");
     }
 
@@ -67,28 +115,47 @@ class CartProvider with ChangeNotifier {
   }
 
   int index = 0;
-
-  void buy(ProductModel product) {
-    int itemTotalPrice = product.price.toInt() * numberSingle; // 計算單品總購買價格
-    Map<String, dynamic> mapsTest = {
-      "cartID": index += 1,
-      "product": product.toJson(),
-      "number": numberSingle,
-      "itemTotalPrice": itemTotalPrice,
-    };
-    cartItems.add(mapsTest);
-    totalPrice = totalPrice + itemTotalPrice;
-    print("buy-totalPrice: ${totalPrice}");
-
-    notifyListeners();
-  }
-
-  removeProduct(int cartID, int productID, int itemTotalPrice) {
-    print(
-        "removeProductID: ${productID} / cartID: ${cartID} /itemTotalPrice: ${itemTotalPrice}");
-    cartItems.removeWhere((e) => e['cartID'] == cartID);
-    totalPrice = totalPrice - itemTotalPrice;
-
-    notifyListeners();
-  }
 }
+
+
+/*
+
+
+cart.dart
+
+class CartItem {
+  final String id;
+  final String title;
+  final int quantity;
+  final double price;
+
+  CartItem({
+    @required this.id,
+    @required this.title,
+    @required this.quantity,
+    @required this.price,
+  });
+}
+
+order.dart
+class OrderItem {
+  final String id;
+  final double amount;
+  final List<CartItem> orderedProducts;
+  final DateTime datetime;
+
+  OrderItem({
+    @required this.id,
+    @required this.amount,
+    @required this.orderedProducts,
+    @required this.datetime,
+  });
+}
+
+
+
+
+
+
+
+*/

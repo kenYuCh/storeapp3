@@ -13,11 +13,10 @@ class CartList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    final cartProvider = Provider.of<CartProvider>(context, listen: false);
-    final cartItems =
-        Provider.of<CartProvider>(context, listen: true).cartItems;
-    final totalPrice =
-        Provider.of<CartProvider>(context, listen: true).totalPrice;
+
+    final itemsA = Provider.of<CartProvider>(context, listen: true).itemsA;
+    final cart = Provider.of<CartProvider>(context, listen: false);
+
     // print(cartItems[0]['product']['id']);
     return Container(
       child: Stack(
@@ -29,36 +28,37 @@ class CartList extends StatelessWidget {
                 // borderRadius: BorderRadius.circular(25),
                 ),
             child: ListView.builder(
-              itemCount: cartItems.length,
+              itemCount: itemsA.length,
               itemBuilder: ((context, index) {
                 return Container(
                   height: 140.0,
                   alignment: Alignment.center,
                   child: ListTile(
                     leading: Image.network(
-                      "${cartItems[index]['product']['image']}",
+                      // "${cartItems[index]['product']['image']}",
+                      "${itemsA.values.toList()[index].image}",
                       height: 50.0,
                       width: 50.0,
                     ),
                     title: Column(children: [
-                      Text("${cartItems[index]['product']['title']}"),
+                      Text("${itemsA.values.toList()[index].title}"),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          Text(
-                              "${cartItems[index]['product']['price'].toInt()} \$"),
+                          Text("${itemsA.values.toList()[index].price} \$"),
                           Row(
                             children: [
                               IconButton(
                                 onPressed: (() {
-                                  cartProvider.decrease();
+                                  // cartProvider.decreaseA();
+                                  cart.decrease();
                                 }),
                                 icon: Icon(Icons.remove),
                               ),
-                              Text("${cartItems[index]['number']}"),
+                              Text("${itemsA.values.toList()[index].quantity}"),
                               IconButton(
                                 onPressed: (() {
-                                  cartProvider.increase();
+                                  cart.increase();
                                 }),
                                 icon: Icon(Icons.add),
                               ),
@@ -69,10 +69,7 @@ class CartList extends StatelessWidget {
                     ]),
                     trailing: IconButton(
                         onPressed: (() {
-                          cartProvider.removeProduct(
-                              cartItems[index]['cartID'],
-                              cartItems[index]['product']['id'],
-                              cartItems[index]['itemTotalPrice']);
+                          cart.removeItem(itemsA.values.toList()[index].id);
                         }),
                         icon: Icon(Icons.delete)),
                   ),
@@ -87,7 +84,7 @@ class CartList extends StatelessWidget {
                 width: size.width,
                 decoration: BoxDecoration(color: Colors.grey),
                 child: Center(
-                  child: Text("Total Price: ${totalPrice}"),
+                  child: Text("Total Price: ${cart.totalAmount}"),
                 ),
               )),
         ],

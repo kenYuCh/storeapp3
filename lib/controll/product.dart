@@ -1,20 +1,27 @@
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
+import 'package:storeappver3/memory/product.dart';
 import 'package:storeappver3/models/product.dart';
 import 'package:storeappver3/repository/product.dart';
 
 class ProductProvider with ChangeNotifier, DiagnosticableTreeMixin {
-  final _repository = ProductRepository();
+  final _productMemo = ProductMemo();
   List<ProductModel> _productList = [];
-  int numberSingle = 0;
   List<Map<String, dynamic>> cartProductID = [];
-
+  int numberSingle = 0;
+  // category select
+  List catagoryType = [
+    ["electronics", true],
+    ["jewelery", false],
+    ["men's clothing", false],
+    ["women's clothing", false]
+  ];
   ProductProvider() {
     init();
   }
   init() async {
-    _productList = await _repository.getProducts();
+    _productList = await _productMemo.getAllProducts();
     print("init...ProductProvider.");
     notifyListeners();
   }
@@ -31,13 +38,6 @@ class ProductProvider with ChangeNotifier, DiagnosticableTreeMixin {
     return [..._productList];
   }
 
-  // category select
-  List catagoryType = [
-    ["electronics", true],
-    ["jewelery", false],
-    ["men's clothing", false],
-    ["women's clothing", false]
-  ];
   void selectedCatagory(int index) {
     catagoryType.map((category) {
       return category[1] = false;
