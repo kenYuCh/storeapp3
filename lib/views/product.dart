@@ -206,14 +206,14 @@ class _ScrollViewBodyState extends State<ScrollViewBody> {
               height: size.height * 0.55,
               child: Consumer<ProductProvider>(
                 builder: (context, data, child) {
-                  return data.productList.isNotEmpty == true
+                  return data.productItems.isNotEmpty == true
                       ? ListView.builder(
                           scrollDirection: Axis.horizontal,
                           itemCount: 3,
                           itemBuilder: (context, index) {
                             return ProductCard(
                               product: ProductModel.fromJson(
-                                  data.productList[index].toJson()),
+                                  data.productItems[index].toJson()),
                             );
                           },
                         )
