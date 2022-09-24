@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
 import 'package:storeappver3/models/product.dart';
 import 'package:storeappver3/repository/product.dart';
@@ -7,7 +9,10 @@ class ProductProvider with ChangeNotifier, DiagnosticableTreeMixin {
   List<ProductModel> _productList = [];
   List<ProductModel> get productList => _productList;
   List<ProductModel> _cart = [];
+  List<ProductModel> get cart => _cart;
   int numberSingle = 0;
+  List<Map<String, dynamic>> cartProductID = [];
+
   List catagoryType = [
     ["electronics", true],
     ["jewelery", false],
@@ -42,28 +47,10 @@ class ProductProvider with ChangeNotifier, DiagnosticableTreeMixin {
     notifyListeners();
   }
 
-  //////////////////////////////
-  void decrease() {
-    if (numberSingle > 0) {
-      numberSingle -= 1;
-    }
-
-    notifyListeners();
-  }
-
-  void increase() {
-    if (numberSingle >= 0) {
-      numberSingle += 1;
-    }
-
-    notifyListeners();
-  }
-
-  void buy(ProductModel product) {
-    for (int i = 0; i < numberSingle; i++) {
-      _cart.add(product);
-    }
+  void compare(product) {
+    final result = _cart.where(
+        (e) => e.title.toLowerCase().contains(product.title.toLowerCase())); //3
     print(_cart.length);
-    notifyListeners();
+    print("result${result.length}");
   }
 }

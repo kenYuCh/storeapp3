@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:storeappver3/controll/product.dart';
 import 'package:storeappver3/models/product.dart';
 import 'package:storeappver3/theme.dart';
+import 'package:storeappver3/views/cartList.dart';
 import 'package:storeappver3/views/components/searchBody.dart';
 import 'package:storeappver3/views/productCard.dart';
 
@@ -26,7 +27,9 @@ class ProductPage extends StatelessWidget {
         ),
         actions: <Widget>[
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              showBottomSheet(context);
+            },
             icon: Icon(Icons.shopping_basket),
           ),
           IconButton(
@@ -38,6 +41,20 @@ class ProductPage extends StatelessWidget {
       body: ScrollViewBody(),
     );
   }
+
+  void showBottomSheet(context) => showModalBottomSheet(
+        isScrollControlled: true,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(20),
+            topRight: Radius.circular(20),
+          ),
+        ),
+        context: context,
+        builder: ((context) {
+          return FractionallySizedBox(heightFactor: 0.9, child: CartList());
+        }),
+      );
 }
 
 class ScrollViewBody extends StatefulWidget {

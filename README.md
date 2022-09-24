@@ -4,11 +4,15 @@
 - flutter that learns to design patterns and API、SQL、StateManagement.
 - All images are quoted.
 - The shop databases on the Fake Store API website, can fetch data through API.
+
+
 <p float="left">
 <img style="float: right;" src="Screenshot_1663918732.png" width="200">
-<img style="float: right;" src="Screenshot_1663946078.png" width="200">
-</p>
 
+<img style="float: right;" src="Screenshot_1663946078.png" width="200">
+
+<img style="float: right;" src="Screenshot_1664005898.png" width="200">
+</p>
 
 
 ## working...productDetail, 

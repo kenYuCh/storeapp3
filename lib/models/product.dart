@@ -36,7 +36,7 @@ class ProductModel {
   final String category;
   final String image;
   final Rating? rating;
-
+  // 若有數值轉換可直接在model導入時轉換
   factory ProductModel.fromJson(Map<String, dynamic> json) => ProductModel(
         id: json["id"] == null ? null : json["id"],
         title: json["title"] == null ? null : json["title"],

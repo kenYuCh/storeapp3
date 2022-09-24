@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:storeappver3/controll/cart.dart';
 import 'package:storeappver3/controll/product.dart';
 import 'package:storeappver3/theme.dart';
+import 'package:storeappver3/views/cartList.dart';
 import 'package:storeappver3/views/product.dart';
 
 void main() {
@@ -11,6 +13,10 @@ void main() {
         ChangeNotifierProvider(
           create: (_) => ProductProvider(),
           child: ProductPage(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => CartProvider(),
+          child: CartList(),
         )
       ],
       child: MyApp(),

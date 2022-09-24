@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:storeappver3/controll/cart.dart';
 import 'package:storeappver3/controll/product.dart';
 import 'package:storeappver3/memory/product.dart';
 
@@ -17,7 +18,10 @@ class ProductDetail extends StatelessWidget {
         backgroundColor: Colors.transparent,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () => Navigator.of(context).pop(),
+          onPressed: () {
+            Provider.of<CartProvider>(context, listen: false).numberSingle = 0;
+            Navigator.of(context).pop();
+          },
         ),
       ),
       body: buildBody(context),
@@ -119,7 +123,7 @@ class ProductDetail extends StatelessWidget {
                 color: Color.fromARGB(166, 112, 131, 113),
                 borderRadius: BorderRadius.all(Radius.circular(50.0)),
               ),
-              child: Consumer<ProductProvider>(
+              child: Consumer<CartProvider>(
                 builder: (context, provider, child) {
                   return Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -146,7 +150,7 @@ class ProductDetail extends StatelessWidget {
   }
 
   Widget buildBuy(size) {
-    return Consumer<ProductProvider>(builder: ((context, provider, child) {
+    return Consumer<CartProvider>(builder: ((context, provider, child) {
       return GestureDetector(
         onTap: () => provider.buy(product),
         child: Container(
