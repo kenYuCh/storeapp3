@@ -9,7 +9,7 @@ class ProductProvider with ChangeNotifier, DiagnosticableTreeMixin {
   final _productMemo = ProductMemo();
   List<ProductModel> _productList = [];
   List<Map<String, dynamic>> cartProductID = [];
-  int numberSingle = 0;
+  dynamic dropdownItem = null;
   // category select
   List catagoryType = [
     ["electronics", true],
@@ -47,6 +47,12 @@ class ProductProvider with ChangeNotifier, DiagnosticableTreeMixin {
       return category[1] = false;
     }).toList();
     catagoryType[index][1] = true;
+    notifyListeners();
+  }
+
+  void setDropdownItem(value) {
+    dropdownItem = value;
+    print("dropdownItem: ${dropdownItem}");
     notifyListeners();
   }
 }

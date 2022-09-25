@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:storeappver3/components/constants.dart';
 import 'package:storeappver3/controll/product.dart';
 import 'package:storeappver3/models/product.dart';
 import 'package:storeappver3/theme.dart';
@@ -7,10 +8,14 @@ import 'package:storeappver3/views/productDetail.dart';
 
 class ProductSearchDelegate extends SearchDelegate {
   List<ProductModel> searchResults = [];
+  String categoryItem = "";
   @override
   ThemeData appBarTheme(BuildContext context) {
-    searchResults =
-        Provider.of<ProductProvider>(context, listen: false).productItems;
+    final productProvider =
+        Provider.of<ProductProvider>(context, listen: false);
+    searchResults = productProvider.productItems;
+    categoryItem = productProvider.dropdownItem;
+
     return ThemeData(
         appBarTheme: const AppBarTheme(
           backgroundColor: Colors.black,
@@ -36,8 +41,26 @@ class ProductSearchDelegate extends SearchDelegate {
 
   @override
   PreferredSizeWidget? buildBottom(BuildContext context) {
+    final dropdownItem = Provider.of<ProductProvider>(context, listen: true);
+    final category = categoryList;
     return PreferredSize(
-        preferredSize: Size.fromHeight(56.0), child: Container());
+      preferredSize: Size.fromHeight(56.0),
+      child: DropdownButton(
+        dropdownColor: Colors.black,
+        value: dropdownItem.dropdownItem,
+        items: category
+            .map((value) => DropdownMenuItem(
+                value: value,
+                child: Text(
+                  value,
+                  style: TextStyle(color: Colors.white),
+                )))
+            .toList(),
+        onChanged: (value) {
+          dropdownItem.setDropdownItem(value);
+        },
+      ),
+    );
   }
 
   @override
@@ -109,6 +132,16 @@ class ProductSearchDelegate extends SearchDelegate {
       final result = searchResult.title.toLowerCase();
       final input = query.toLowerCase();
       return result.contains(input);
+
+      // if (categoryItem.isNotEmpty) {
+      //   final result = searchResult.category.toLowerCase();
+      //   final input = categoryItem.toLowerCase();
+      //   return result.contains(input);
+      // } else {
+      //   final result = searchResult.title.toLowerCase();
+      //   final input = query.toLowerCase();
+      //   return result.contains(input);
+      // }
     }).toList();
 
     return Container(
