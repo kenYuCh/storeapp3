@@ -1,3 +1,6 @@
+import 'dart:developer';
+import 'dart:io';
+
 import 'package:flutter/foundation.dart';
 
 import 'package:storeappver3/models/product.dart';
@@ -139,7 +142,6 @@ class CartProvider with ChangeNotifier {
   }
 
   void removeItem(String id) {
-    print(id);
     _itemsA.remove(id);
     notifyListeners();
   }

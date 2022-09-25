@@ -30,6 +30,10 @@ class ProductProvider with ChangeNotifier, DiagnosticableTreeMixin {
     return _productList;
   }
 
+  List<ProductModel> get searchProduct {
+    return _productList;
+  }
+
   // isFavourite
   var isFavoriteTapped = false;
   List<ProductModel> get itemsTest {

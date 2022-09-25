@@ -234,7 +234,10 @@ class _ScrollViewBodyState extends State<ScrollViewBody> {
 }
 
 void showSearchFc(context) {
-  showSearch(context: context, delegate: ProductSearchDelegate());
+  showSearch(
+    context: context,
+    delegate: ProductSearchDelegate(),
+  );
 }
 
 // category select
